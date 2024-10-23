@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/startanimation.css">
+<body class="container">
+    <article class="start mx-auto mt-4 py-3 px-3" id="main">
+        <img src="img/hor.png" alt="mainImage" class="img-fluid mx-auto  ">
+        <div id="zemok">
+            <h2 class="mt-5 text-center">내 친구 둥이 Test</h2>
+        <p>
+         나랑 맞는 단짝 둥이는 어떤 둥이일까?
+         <br> 
+        </p>
+        </div>
+        <button type="button" class="btn btn-success mt-5 py-3" onclick='start();'>Find Doong</button>
+    </article>
+    <br>
+    <article class="question" id="qna">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style= calc(100/12*1%) ></div>
+          </div>
+        <h2 id="title" class="text-center mt-5">문제</h2>
+        <input id="type" type="hidden" value="EI">
+        <button id="A" type="button" class="btn btn-secondary mt-5">Info</button>
+        <button id="B" type="button" class="btn btn-secondary mt-5">Info</button>
+    </article> 
+    <article class="result">
+            <img id="img" class="mt-5" src="img/fox.png" alt="animal">
+            <h2 id="animal" class="text-center mt-5">동물이름</h2>
+            <h3 id="explain" class="text-center mt-5">설명</h3>
+    </article>
+    <input type="hidden" id="MG" value="0">
+    <input type="hidden" id="BA" value="0">
+    <input type="hidden" id="SZ" value="0">
+    <input type="hidden" id="UT" value="0">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script>
+
+        var num = 1;
+        var q = {
+            1: {"title": "옷을 사러 나왔는데<br>마음에 드는 옷을 발견했다.", "type": "MG", "A": "더 예쁜 옷이 있을 수도 있어. 일단 찜뽕!<br>다른 옷가게들도 모두 들려야지.", "B": "바로 구매!<br>만족하고 나머지 가게는 안들리고 집에 가야겠다."},
+            2: {"title": "검정폰을 샀다.<br>그런데 갑자기 흰색폰이 더 좋아보인다.", "type": "MG", "A": "아놔~~ 흰색살걸.. 흰색이 더 밝고 이쁜데..<br>엉엉ㅠㅠ 담엔 더 신중하게 골라야겠어.", "B": "이미 검정색 샀는데,,뭐 어때! <br>흰색은 얼룩도 잘생기고 금방 더러워져~~ 검정사길 잘헀어!"},
+            3: {"title": "어떠한 결정을 내렸다.", "type": "MG", "A": "더 좋은 결정이 있었을지도 않았을까?", "B": "일단 선택했으니 다른 선택지는 생각안해."},
+            4: {"title": "친구와 게임을 한다.", "type": "BA", "A": "지면 뭐 어때~ 재밌으면 돼!", "B": "무조건 내가 이길꺼야~드루와~"},
+            5: {"title": "나는 과제중인데 <br>옆에 친구는 띵가띵가 놀고있다.", "type": "BA", "A": "아무생각 없음.. 넌 놀아라~", "B": "쟤는 좀 게으르네. 왜 안하는거지?? 이해가 안돼.."},
+            6: {"title": "수행해야하는 과제가 생겼다.", "type": "BA", "A": "나는 이정도의 퀄리티로 만들어야지!!", "B": "남들보다 내가 더 잘해야지!!"},
+            7: {"title": "친구가 곤란한 부탁을 했다.", "type": "SZ", "A": "거절한다.", "B": "거절했을 때 상처받으면 어떡하지.."},
+            8: {"title": "친구가 나에게 기분 나쁜 틀린 말을 한다.", "type": "SZ", "A": "응 알겠어. 싸우기 싫으니 회피한다.", "B": "너 뭐래니? 다른사람이 잘못된 건 말해줘야해."},
+            9: {"title": "협동활동 중 하기싫은 역할을<br>아무도 하지 않는다.", "type": "SZ", "A": "나도 절대 안해..", "B": "정말 아무도 안해..? 그냥 내가 할게;"},
+            10: {"title": "주어진 일을 해냈다.", "type": "UT", "A": "성취감이 든다.", "B": "성취감보다는 안도감이 먼저 든다."},
+            11: {"title": "뭔가를 잘 못 선택한 날 밤이다.", "type": "UT", "A": "쿨쿨쿨~", "B": "계속 떠올라 잠에 못든다."},
+            12: {"title": "친구들이랑 있는데 한 명이<br>기분이 안좋아 보인다.", "type": "UT", "A": "눈누 난나", "B": "왜..기분이 안좋지..?ㅜㅜ"}
+        }
+        var result = {
+            "GBSU" : {"animal": "", "explain": "", "img": "img/GB_U.png"},
+            "GBZU" : {"animal": "", "explain": "", "img": "img/GB_U.png"},
+            "GAZU" : {"animal": "", "explain": "", "img": "img/han.png"},
+            "GASU" : {"animal": "", "explain": "", "img": "img/gasu.png"},
+            "GBST" : {"animal": "", "explain": "", "img": "img/GBST.png"},
+            "GBZT" : {"animal": "", "explain": "", "img": "img/MBZT.png"},
+            "GAZT" : {"animal": "", "explain": "", "img": "img/han.png"},
+            "GAST" : {"animal": "", "explain": "", "img": "img/GBST.png"},
+            "MBST" : {"animal": "", "explain": "", "img": "img/frog.png"},
+            "MBZT" : {"animal": "", "explain": "", "img": "img/MBZT.png"},
+            "MAZT" : {"animal": "", "explain": "", "img": "img/per.png"},
+            "MAST" : {"animal": "", "explain": "", "img": "img/gasu.png"},
+            "MBSU" : {"animal": "", "explain": "", "img": "img/mbsu.png"},
+            "MBZU" : {"animal": "", "explain": "", "img": "img/per.png"},
+            "MAZU" : {"animal": "", "explain": "", "img": "img/per.png"},
+            "MASU" : {"animal": "", "explain": "", "img": "img/mbsu.png"},
+        }
+ 
+        function start() {
+            main.style.WebkitAnimation = "fadeOut 1s";
+            main.style.Animation = "fadeOut 1s";
+            qna.style.WebkitAnimation = "fadeIn 1s";
+            qna.style.Animation = "fadeIn 1s";
+            $(".start").hide();
+            $(".question").show();
+            next();
+        }
+
+        $("#A").click(function(){
+            var type = $("#type").val();
+            var preValue = $("#" + type).val();
+            $("#" + type).val(parseInt(preValue) + 1);
+            next();
+        });
+
+        $("#B").click(function(){
+            next();
+        });
+
+        function next() {
+            if (num == 13) {
+                $(".question").hide();
+                $(".result").show();
+
+                var mbti = "";
+                ($("#MG").val() < 2) ? mbti += "G" : mbti += "M";
+                ($("#BA").val() < 2) ? mbti += "A" : mbti += "B";
+                ($("#SZ").val() < 2) ? mbti += "Z" : mbti += "S";
+                ($("#UT").val() < 2) ? mbti += "T" : mbti += "U";
+
+                $("#img").attr("src", result[mbti]["img"]);
+                $("#animal").html(result[mbti]["animal"]);
+                $("#explain").html(result[mbti]["explain"]);
+            } else {
+                $(".progress-bar").css('width', 'calc(100/12*' + num + '%)');
+                $("#title").html(q[num]["title"]);
+                $("#type").val(q[num]["type"]);
+                $("#A").html(q[num]["A"]);
+                $("#B").html(q[num]["B"]);
+                num++;
+            }
+        }
+    </script>
+</body>
+</html>

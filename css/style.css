@@ -1,0 +1,51 @@
+body{background-color: #c8b0d0;  color: #261d21;
+    font-family: "Gugi", sans-serif;
+}
+
+   @font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+p {
+    font-family: 'S-CoreDream-3Light';
+    font-size: 16px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+}
+
+@import url('https://fonts.googleapis.com/css?family=Mukta:700');
+
+
+article {
+    display: flex;
+    flex-direction: column;
+}
+
+.question {
+    display: none;
+}
+
+.result {
+    display: none;
+}
+
+#img { width: 80%;
+   margin: 0 auto;
+}
+
+#main {
+    background-color: rgba(245, 245, 245, 0);
+    width: 90%;
+    text-align: center;
+    border-radius: 20px;
+}
+
+#zemok{
+    color: black;
+}
+
+button {
+    font-family: 'S-CoreDream-3Light'; /* 버튼 폰트 */
+}
